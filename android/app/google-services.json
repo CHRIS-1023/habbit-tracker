@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1087777100405",
+    "project_id": "habbit-tracker-b308a",
+    "storage_bucket": "habbit-tracker-b308a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087777100405:android:79439ced57ee48bc4d5e3c",
+        "android_client_info": {
+          "package_name": "com.example.habbit_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087777100405-07h0rc85ecemtkkm77d8lmknhadvdq4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdRvcCIXOOL7caff_SM-mXJPiwhBEqO0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087777100405-07h0rc85ecemtkkm77d8lmknhadvdq4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
