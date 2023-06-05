@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:habbit_tracker/getstarted.dart';
 import 'package:habbit_tracker/helpers.dart';
+import 'package:habbit_tracker/home_page.dart';
 import 'package:habbit_tracker/login.dart';
 
 Future<void> main() async {
@@ -40,6 +40,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: isSignedIn ? const GetStarted() : const LogIn());
+        home: isSignedIn ? const HomePage() : const LogIn());
   }
 }

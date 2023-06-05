@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habbit_tracker/analytics_page.dart';
+import 'package:habbit_tracker/home_page.dart';
 
 void nextScreenReplace(context, page) {
   Navigator.pushReplacement(
@@ -23,4 +25,34 @@ void showSnackbar(context, color, message) {
       textColor: Colors.white,
     ),
   ));
+}
+
+class CustomBottomNavigationBar extends StatelessWidget {
+  const CustomBottomNavigationBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: () {
+              nextScreenReplace(context, const HomePage());
+            },
+            icon: const Icon(Icons.home_rounded),
+          ),
+          IconButton(
+              onPressed: () {
+                nextScreenReplace(context, const AnalyticsPage());
+              },
+              icon: const Icon(Icons.bar_chart_sharp)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.auto_graph_rounded)),
+          const CircleAvatar()
+        ],
+      ),
+    );
+  }
 }
