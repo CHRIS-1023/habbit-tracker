@@ -36,9 +36,7 @@ class _GridStartState extends State<GridStart> {
 
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            color: Colors.grey[400],
-          ),
+              borderRadius: BorderRadius.circular(14), color: Colors.white),
           child: Column(
             children: [
               Column(

@@ -15,6 +15,7 @@ class _GetStartedState extends State<GetStarted> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[100],
         body: Padding(
           padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
           child: SingleChildScrollView(
