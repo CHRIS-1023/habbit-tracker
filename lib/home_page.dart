@@ -4,9 +4,10 @@ import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/getstarted.dart';
 import 'package:habbit_tracker/login.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,137 +15,178 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
+    var scaffoldKey = GlobalKey<ScaffoldState>();
+    var currentDate = DateTime.now();
+    var formattedDate = DateFormat('EEEE, d').format(currentDate);
+    var formattedDate2 = DateFormat('EEEE').format(currentDate);
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Home Page'),
-          actions: [
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () async {
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Logout"),
-                              content: const Text(
-                                  "Are you sure you want to logout?"),
-                              actions: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.cancel,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () async {
-                                    await authService.signOut();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LogIn()),
-                                        (route) => false);
-                                  },
-                                  icon: const Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
+      key: scaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+          children: <Widget>[
+            ListTile(
+              onTap: () {
+                nextScreenReplace(context, const GetStarted());
+              },
+              leading: const Icon(Icons.grid_view_sharp),
+              title: const Text('Select habit'),
+            ),
+            ListTile(
+              onTap: () async {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Logout"),
+                      content: const Text("Are you sure you want to logout?"),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await authService.signOut();
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => const LogIn(),
+                              ),
+                              (route) => false,
                             );
-                          });
-                    },
-                    icon: const Icon(Icons.exit_to_app))
-              ],
-            )
+                          },
+                          icon: const Icon(
+                            Icons.done,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text(
+                "Logout",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListTile(
-                  leading: IconButton(
-                      onPressed: () {
-                        nextScreenReplace(context, const GetStarted());
-                      },
-                      icon: const Icon(Icons.grid_view)),
-                  trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.calendar_month_outlined)),
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Card(
-                      color: Colors.grey[800],
-                      child: const ListTile(
-                        visualDensity: VisualDensity(vertical: 4),
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage('assets/books.jpeg'),
-                        ),
-                        title: Text(
-                          'Notification!',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          'Now is the time to read the book,\n you can change it in settings',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    )),
-                // Container(
-                //   padding: const EdgeInsets.all(8),
-                //   height: 100,
-                //   child: const DatesGrid(),
-                // ),
-                DatePicker(
-                  DateTime.now(),
+      ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.grey[50],
+        title: Text(
+          formattedDate,
+          style: const TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          color: Colors.black,
+          onPressed: () {
+            scaffoldKey.currentState?.openDrawer();
+          },
+          icon: const Icon(Icons.grid_view),
+        ),
+        actions: [
+          IconButton(
+            color: Colors.black,
+            onPressed: () {},
+            icon: const Icon(Icons.calendar_month_outlined),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
                   height: 100,
-                  width: 80,
-                  initialSelectedDate: DateTime.now(),
-                  selectionColor: Colors.amber,
-                  selectedTextColor: Colors.white,
-                  dateTextStyle: const TextStyle(
-                      fontSize: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[700],
+                      borderRadius: BorderRadius.circular(14)),
+                  child: const ListTile(
+                    visualDensity: VisualDensity(vertical: 4),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage('assets/books.jpeg'),
+                    ),
+                    title: Text(
+                      'Notification!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      'Now is the time to read the book,\n you can change it in settings',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              DatePicker(
+                DateTime.now(),
+                height: 100,
+                width: 80,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: Colors.amber,
+                selectedTextColor: Colors.white,
+                dateTextStyle: const TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '$formattedDate2 habit',
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey),
+                      fontSize: 20,
+                      letterSpacing: 2),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Tuesday Habit'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12),
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      return Container(
-                          decoration: BoxDecoration(
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),
                         color: Colors.grey[400],
-                      ));
-                    },
-                  ),
-                )
-              ],
-            ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
-        bottomNavigationBar: const CustomBottomNavigationBar());
+      ),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
+    );
   }
 }
