@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/habits.dart';
 import 'package:habbit_tracker/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,8 +10,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   await Hive.initFlutter();
-  // Hive.registerAdapter(HabitAdapter());
-  await Hive.openBox<Habit>('habits');
+  Hive.registerAdapter(HabitAdapter());
+  boxHabits = await Hive.openBox<Habit>('habits');
   runApp(const MyApp());
 }
 

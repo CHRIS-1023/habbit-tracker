@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker/auth.dart';
+import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/getstarted.dart';
 import 'package:habbit_tracker/login.dart';
@@ -171,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                   ),
-                  itemCount: 8,
+                  itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(

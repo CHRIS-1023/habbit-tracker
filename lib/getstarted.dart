@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/habits.dart';
 import 'package:habbit_tracker/home_page.dart';
 import 'package:habbit_tracker/start_grid.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -13,7 +13,7 @@ class GetStarted extends StatefulWidget {
 }
 
 class _GetStartedState extends State<GetStarted> {
-  Set<Habit> selectedHabits = {};
+  List<Habit> selectedHabits = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +48,7 @@ class _GetStartedState extends State<GetStarted> {
               const SizedBox(
                 height: 10,
               ),
-              const GridStart(),
+              GridStart(selectedHabits: selectedHabits),
               const SizedBox(
                 height: 15,
               ),
@@ -68,11 +68,12 @@ class _GetStartedState extends State<GetStarted> {
                     ),
                   ),
                   onPressed: () async {
-                    // Save selected habits to Hive
-                    final box = await Hive.openBox<Habit>('habits');
-                    await box.clear(); // Clear existing habits
-                    await box.addAll(selectedHabits);
-                    nextScreen(context, const HomePage());
+                    await boxHabits.clear();
+
+                    await boxHabits.addAll(selectedHabits);
+                    print(
+                        "habit box ${boxHabits.values.length} selected habits ${selectedHabits.length}");
+                    nextScreenReplace(context, const HomePage());
                   },
                 ),
               ),
