@@ -14,7 +14,6 @@ class _DatesGridState extends State<DatesGrid> {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1, mainAxisSpacing: 12),
-      itemCount: 6,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         return Container(

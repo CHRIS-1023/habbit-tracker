@@ -1,7 +1,8 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/const_widgets.dart';
-import 'package:habbit_tracker/dates_grid.dart';
+import 'package:habbit_tracker/getstarted.dart';
 import 'package:habbit_tracker/login.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,21 +70,52 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.grey[700],
-                      ),
-                      height: 120,
-                      width: 400,
-                      child: const CircleAvatar()),
+                ListTile(
+                  leading: IconButton(
+                      onPressed: () {
+                        nextScreenReplace(context, const GetStarted());
+                      },
+                      icon: const Icon(Icons.grid_view)),
+                  trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.calendar_month_outlined)),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8),
+                Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Card(
+                      color: Colors.grey[800],
+                      child: const ListTile(
+                        visualDensity: VisualDensity(vertical: 4),
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: AssetImage('assets/books.jpeg'),
+                        ),
+                        title: Text(
+                          'Notification!',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          'Now is the time to read the book,\n you can change it in settings',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )),
+                // Container(
+                //   padding: const EdgeInsets.all(8),
+                //   height: 100,
+                //   child: const DatesGrid(),
+                // ),
+                DatePicker(
+                  DateTime.now(),
                   height: 100,
-                  child: const DatesGrid(),
+                  width: 80,
+                  initialSelectedDate: DateTime.now(),
+                  selectionColor: Colors.amber,
+                  selectedTextColor: Colors.white,
+                  dateTextStyle: const TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
