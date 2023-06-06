@@ -34,22 +34,25 @@ class _GridStartState extends State<GridStart> {
       itemBuilder: (context, index) {
         Habit habit = habits[index];
 
-        return Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14), color: Colors.white),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    habit.imagePath,
-                    height: 140,
-                    width: 160,
-                  ),
-                ],
-              ),
-              Text(habit.title)
-            ],
+        return GestureDetector(
+          onTap: () {},
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14), color: Colors.white),
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Image.asset(
+                      habit.imagePath,
+                      height: 140,
+                      width: 160,
+                    ),
+                  ],
+                ),
+                Text(habit.title)
+              ],
+            ),
           ),
         );
       },
