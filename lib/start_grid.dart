@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker/data.dart';
-import 'package:habbit_tracker/habit.dart';
+import 'package:habbit_tracker/habits.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class GridStart extends StatefulWidget {
   const GridStart({super.key});
@@ -11,6 +12,10 @@ class GridStart extends StatefulWidget {
 
 class _GridStartState extends State<GridStart> {
   late List<Habit> habits = [];
+
+  // Track tapped habits
+  Set<Habit> selectedHabits = {};
+
   @override
   void initState() {
     super.initState();
@@ -35,10 +40,22 @@ class _GridStartState extends State<GridStart> {
         Habit habit = habits[index];
 
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            setState(() {
+              // Toggle the selected state of the habit
+              if (selectedHabits.contains(habit)) {
+                selectedHabits.remove(habit);
+              } else {
+                selectedHabits.add(habit);
+              }
+            });
+          },
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14), color: Colors.white),
+              borderRadius: BorderRadius.circular(14),
+              color:
+                  selectedHabits.contains(habit) ? Colors.green : Colors.white,
+            ),
             child: Column(
               children: [
                 Column(
@@ -57,5 +74,11 @@ class _GridStartState extends State<GridStart> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    Hive.close(); // Close Hive when the widget is disposed
+    super.dispose();
   }
 }

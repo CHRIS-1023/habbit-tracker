@@ -1,14 +1,14 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
-part 'habits.g.dart';
+part 'habits.g.dart'; // Generated Hive adapter code
 
 @HiveType(typeId: 0)
-class Habits extends HiveObject {
+class Habit extends HiveObject {
   @HiveField(0)
   late String title;
 
   @HiveField(1)
   late String imagePath;
 
-  Habits({required this.title, required this.imagePath});
+  Habit({required this.title, required this.imagePath});
 }

@@ -1,6 +1,6 @@
-class Habit {
+class Habits {
   final String title;
   final String imagePath;
 
-  Habit({required this.title, required this.imagePath});
+  Habits({required this.title, required this.imagePath});
 }

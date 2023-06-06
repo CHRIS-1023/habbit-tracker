@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   height: 100,
                   decoration: BoxDecoration(
-                      color: Colors.grey[700],
+                      color: Colors.grey,
                       borderRadius: BorderRadius.circular(14)),
                   child: const ListTile(
                     visualDensity: VisualDensity(vertical: 4),
@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                   ),
-                  itemCount: 6,
+                  itemCount: 8,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
