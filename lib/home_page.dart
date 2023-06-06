@@ -4,6 +4,7 @@ import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/getstarted.dart';
+import 'package:habbit_tracker/habits.dart';
 import 'package:habbit_tracker/login.dart';
 import 'package:intl/intl.dart';
 
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     var formattedDate2 = DateFormat('EEEE').format(currentDate);
 
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       key: scaffoldKey,
       drawer: Drawer(
         child: ListView(
@@ -89,7 +91,7 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Colors.grey[100],
         title: Text(
           formattedDate,
           style: const TextStyle(color: Colors.black),
@@ -174,10 +176,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
+                    Habit habit = boxHabits.getAt(index);
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),
-                        color: Colors.grey[400],
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            habit.imagePath,
+                            height: 140,
+                            width: 160,
+                          ),
+                          Text(habit.title)
+                        ],
                       ),
                     );
                   },
