@@ -50,7 +50,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
               icon: const Icon(Icons.bar_chart_sharp)),
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.auto_graph_rounded)),
-          const CircleAvatar()
+          CircleAvatar(
+            child: ClipOval(child: Image.asset('assets/user.jpeg')),
+          )
         ],
       ),
     );

@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
+  Set<int> selectedGridIndices = {};
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       key: scaffoldKey,
-      drawer: Drawer(
-        child: buildDrawer(context),
-      ),
+      drawer: const Drawer(child: CustomDrawer()),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.grey[100],
@@ -111,27 +110,45 @@ class _HomePageState extends State<HomePage> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      mainAxisExtent: 180),
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     Habit habit = boxHabits.getAt(index);
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            habit.imagePath,
-                            height: 140,
-                            width: 160,
-                          ),
-                          Text(habit.title)
-                        ],
+                    final isSelected = selectedGridIndices.contains(index);
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected) {
+                            selectedGridIndices.remove(index);
+                          } else {
+                            selectedGridIndices.add(index);
+                          }
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          color: isSelected ? Colors.amber : Colors.white,
+                        ),
+                        child: Column(
+                          children: [
+                            isSelected
+                                ? const Icon(Icons.check_circle_outline)
+                                : const Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.transparent,
+                                  ),
+                            Image.asset(
+                              habit.imagePath,
+                              height: 140,
+                              width: 160,
+                            ),
+                            Text(habit.title)
+                          ],
+                        ),
                       ),
                     );
                   },

@@ -19,15 +19,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     return Scaffold(
         backgroundColor: Colors.grey[100],
         key: scaffoldKey,
-        drawer: Drawer(
-          child: buildDrawer(context),
-        ),
+        drawer: Drawer(child: CustomDrawer()),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.grey[100],
-          title: Text(
+          title: const Text(
             'Calorie stats',
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
           leading: IconButton(
