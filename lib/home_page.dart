@@ -98,7 +98,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               DatePicker(
-                DateTime.now(),
+                DateTime(
+                  2023,
+                  6,
+                ),
                 height: 100,
                 width: 80,
                 initialSelectedDate: DateTime.now(),
