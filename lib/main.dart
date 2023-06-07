@@ -12,6 +12,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(HabitAdapter());
   boxHabits = await Hive.openBox<Habit>('habits');
+  await Hive.openBox<int>('selectedGridIndices');
   runApp(const MyApp());
 }
 

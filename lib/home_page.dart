@@ -5,6 +5,7 @@ import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
 import 'package:habbit_tracker/habits.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
   Set<int> selectedGridIndices = {};
+
+  Box<int>? selectedGridIndicesBox;
+
+  @override
+  void initState() {
+    super.initState();
+    openSelectedGridIndicesBox();
+  }
+
+  Future<void> openSelectedGridIndicesBox() async {
+    await Hive.openBox<int>('selectedGridIndices');
+    setState(() {
+      selectedGridIndicesBox = Hive.box<int>('selectedGridIndices');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,14 +133,15 @@ class _HomePageState extends State<HomePage> {
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     Habit habit = boxHabits.getAt(index);
-                    final isSelected = selectedGridIndices.contains(index);
+                    final isSelected =
+                        selectedGridIndicesBox?.containsKey(index) ?? false;
                     return GestureDetector(
                       onTap: () {
                         setState(() {
                           if (isSelected) {
-                            selectedGridIndices.remove(index);
+                            selectedGridIndicesBox?.delete(index);
                           } else {
-                            selectedGridIndices.add(index);
+                            selectedGridIndicesBox?.put(index, index);
                           }
                         });
                       },
