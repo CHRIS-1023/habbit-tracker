@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
-import 'package:habbit_tracker/getstarted.dart';
+import 'package:habbit_tracker/drawer.dart';
 import 'package:habbit_tracker/habits.dart';
-import 'package:habbit_tracker/login.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,72 +21,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
     var currentDate = DateTime.now();
-    var formattedDate = DateFormat('EEEE, d').format(currentDate);
+    var formattedDate = DateFormat('EEEE, MMMM d').format(currentDate);
     var formattedDate2 = DateFormat('EEEE').format(currentDate);
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
       key: scaffoldKey,
       drawer: Drawer(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 50),
-          children: <Widget>[
-            ListTile(
-              onTap: () {
-                nextScreenReplace(context, const GetStarted());
-              },
-              leading: const Icon(Icons.grid_view_sharp),
-              title: const Text('Select habit'),
-            ),
-            ListTile(
-              onTap: () async {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Logout"),
-                      content: const Text("Are you sure you want to logout?"),
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            await authService.signOut();
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => const LogIn(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.done,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              leading: const Icon(Icons.exit_to_app),
-              title: const Text(
-                "Logout",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ],
-        ),
+        child: buildDrawer(context),
       ),
       appBar: AppBar(
         elevation: 0,
@@ -122,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   height: 100,
                   decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Colors.grey[800],
                       borderRadius: BorderRadius.circular(14)),
                   child: const ListTile(
                     visualDensity: VisualDensity(vertical: 4),
