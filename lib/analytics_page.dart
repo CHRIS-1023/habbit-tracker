@@ -3,23 +3,35 @@ import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
 import 'package:habbit_tracker/habits.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class AnalyticsPage extends StatefulWidget {
-  const AnalyticsPage({super.key});
+  const AnalyticsPage({Key? key}) : super(key: key);
 
   @override
   State<AnalyticsPage> createState() => _AnalyticsPageState();
 }
 
 class _AnalyticsPageState extends State<AnalyticsPage> {
+  Box<Map<String, dynamic>>? selectedGridIndicesBox;
+
+  Future<void> openSelectedGridIndicesBox() async {
+    await Hive.openBox<Map<String, dynamic>>('selectedGridIndices');
+    setState(() {
+      selectedGridIndicesBox =
+          Hive.box<Map<String, dynamic>>('selectedGridIndices');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
+    openSelectedGridIndicesBox();
 
     return Scaffold(
         backgroundColor: Colors.grey[100],
         key: scaffoldKey,
-        drawer: Drawer(child: CustomDrawer()),
+        drawer: const Drawer(child: CustomDrawer()),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.grey[100],
@@ -59,6 +71,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     Habit habit = boxHabits.getAt(index);
+                    final habitData = selectedGridIndicesBox?.get(index);
+
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
@@ -73,7 +87,20 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           title: Text(
                             habit.title,
                             style: const TextStyle(
-                                wordSpacing: 2, fontWeight: FontWeight.bold),
+                              wordSpacing: 2,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            habitData != null && habitData['completed'] == true
+                                ? 'Completed'
+                                : '',
+                            style: TextStyle(
+                              color: habitData != null &&
+                                      habitData['completed'] == true
+                                  ? Colors.green
+                                  : Colors.transparent,
+                            ),
                           ),
                           trailing: CircleAvatar(
                             backgroundColor: Colors.grey[100],

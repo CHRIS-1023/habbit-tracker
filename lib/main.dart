@@ -12,12 +12,12 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(HabitAdapter());
   boxHabits = await Hive.openBox<Habit>('habits');
-  await Hive.openBox<int>('selectedGridIndices');
+  await Hive.openBox<Map<String, dynamic>>('selectedGridIndices');
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();

@@ -4,6 +4,7 @@ import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
+import 'package:habbit_tracker/getstarted.dart';
 import 'package:habbit_tracker/habits.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -17,9 +18,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
-  Set<int> selectedGridIndices = {};
+  Set<Map<String, dynamic>> selectedGridIndices = {};
 
-  Box<int>? selectedGridIndicesBox;
+  Box<Map<String, dynamic>>? selectedGridIndicesBox;
 
   @override
   void initState() {
@@ -28,9 +29,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> openSelectedGridIndicesBox() async {
-    await Hive.openBox<int>('selectedGridIndices');
+    await Hive.openBox<Map<String, dynamic>>('selectedGridIndices');
     setState(() {
-      selectedGridIndicesBox = Hive.box<int>('selectedGridIndices');
+      selectedGridIndicesBox =
+          Hive.box<Map<String, dynamic>>('selectedGridIndices');
     });
   }
 
@@ -98,6 +100,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               DatePicker(
+                onDateChange: (selectedDate) {
+                  nextScreen(context, const GetStarted());
+                },
                 DateTime(
                   2023,
                   6,
@@ -144,7 +149,10 @@ class _HomePageState extends State<HomePage> {
                           if (isSelected) {
                             selectedGridIndicesBox?.delete(index);
                           } else {
-                            selectedGridIndicesBox?.put(index, index);
+                            selectedGridIndicesBox?.put(index, {
+                              'index': index,
+                              'completed': true,
+                            });
                           }
                         });
                       },
