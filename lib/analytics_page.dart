@@ -50,7 +50,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           actions: [
             IconButton(
               color: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(3000));
+              },
               icon: const Icon(Icons.calendar_month_outlined),
             ),
           ],
@@ -94,12 +100,12 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           subtitle: Text(
                             habitData != null && habitData['completed'] == true
                                 ? 'Completed'
-                                : '',
+                                : 'Not started',
                             style: TextStyle(
                               color: habitData != null &&
                                       habitData['completed'] == true
                                   ? Colors.green
-                                  : Colors.transparent,
+                                  : Colors.red,
                             ),
                           ),
                           trailing: CircleAvatar(

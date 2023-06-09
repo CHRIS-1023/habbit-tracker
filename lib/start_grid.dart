@@ -76,9 +76,4 @@ class _GridStartState extends State<GridStart> {
     );
   }
 
-  // @override
-  // void dispose() {
-  //   Hive.close(); // Close Hive when the widget is disposed
-  //   super.dispose();
-  // }
 }

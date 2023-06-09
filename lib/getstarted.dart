@@ -71,8 +71,8 @@ class _GetStartedState extends State<GetStarted> {
                     await boxHabits.clear();
 
                     await boxHabits.addAll(selectedHabits);
-                    print(
-                        "habit box ${boxHabits.values.length} selected habits ${selectedHabits.length}");
+                    // print(
+                    //     "habit box ${boxHabits.values.length} selected habits ${selectedHabits.length}");
                     nextScreenReplace(context, const HomePage());
                   },
                 ),

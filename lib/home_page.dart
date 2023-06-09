@@ -4,7 +4,6 @@ import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
-import 'package:habbit_tracker/getstarted.dart';
 import 'package:habbit_tracker/habits.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -65,7 +64,13 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(3000));
+            },
             icon: const Icon(Icons.calendar_month_outlined),
           ),
         ],
@@ -100,9 +105,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               DatePicker(
-                onDateChange: (selectedDate) {
-                  nextScreen(context, const GetStarted());
-                },
+                onDateChange: (selectedDate) {},
                 DateTime(
                   2023,
                   6,
@@ -159,9 +162,10 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14),
-                          color: isSelected ? Colors.amber : Colors.white,
+                          color: isSelected ? Colors.amber[100] : Colors.white,
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             isSelected
                                 ? const Icon(Icons.check_circle_outline)
