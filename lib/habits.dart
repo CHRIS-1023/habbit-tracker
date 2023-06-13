@@ -10,5 +10,8 @@ class Habit extends HiveObject {
   @HiveField(1)
   late String imagePath;
 
-  Habit({required this.title, required this.imagePath});
+  @HiveField(2)
+  final int id;
+
+  Habit({required this.title, required this.imagePath, required this.id});
 }

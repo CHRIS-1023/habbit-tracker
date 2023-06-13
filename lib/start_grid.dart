@@ -3,9 +3,9 @@ import 'package:habbit_tracker/data.dart';
 import 'package:habbit_tracker/habits.dart';
 
 class GridStart extends StatefulWidget {
-  List<Habit> selectedHabits;
+  final List<Habit> selectedHabits;
 
-  GridStart({required this.selectedHabits,super.key});
+ const  GridStart({required this.selectedHabits,super.key});
 
   @override
   State<GridStart> createState() => _GridStartState();
@@ -24,7 +24,7 @@ class _GridStartState extends State<GridStart> {
 
   void initialiseHabbits() {
     for (var habit in data) {
-      habits.add(Habit(title: habit['title'], imagePath: habit['image']));
+      habits.add(Habit(title: habit['title'], imagePath: habit['image'], id: habit['id']));
     }
   }
 

@@ -15,6 +15,10 @@ class AnalyticsPage extends StatefulWidget {
 class _AnalyticsPageState extends State<AnalyticsPage> {
   Box<Map<String, dynamic>>? selectedGridIndicesBox;
 
+  Box getSelectedGridIndicesBoxForDate(DateTime date) {
+    return boxDates;
+  }
+
   Future<void> openSelectedGridIndicesBox() async {
     await Hive.openBox<Map<String, dynamic>>('selectedGridIndices');
     setState(() {
@@ -27,6 +31,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
     openSelectedGridIndicesBox();
+    var currentDate = DateTime.now();
+    var selectedGridIndicesBox = getSelectedGridIndicesBoxForDate(currentDate);
 
     return Scaffold(
         backgroundColor: Colors.grey[100],
@@ -73,11 +79,12 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                 ),
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
+                  
                   shrinkWrap: true,
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     Habit habit = boxHabits.getAt(index);
-                    final habitData = selectedGridIndicesBox?.get(index);
+                    final habitData = selectedGridIndicesBox.get(index);
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
