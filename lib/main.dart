@@ -15,7 +15,7 @@ Future<void> main() async {
   Hive.registerAdapter(SelectedHabitModelAdapter());
   boxHabits = await Hive.openBox<Habit>('habits');
   selectedHabitsBox = await Hive.openBox<SelectedHabitModel>('selectedHabits');
-  await Hive.openBox<Map<String, dynamic>>('selectedGridIndices');
+
   boxDates = await Hive.openBox('dates');
   runApp(const MyApp());
 }
