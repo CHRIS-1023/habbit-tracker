@@ -19,17 +19,20 @@ class SelectedHabitModelAdapter extends TypeAdapter<SelectedHabitModel> {
     return SelectedHabitModel(
       id: fields[0] as int,
       selectedDate: fields[1] as DateTime,
+      subtitle: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, SelectedHabitModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.selectedDate);
+      ..write(obj.selectedDate)
+      ..writeByte(2)
+      ..write(obj.subtitle);
   }
 
   @override

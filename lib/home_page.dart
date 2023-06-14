@@ -29,10 +29,24 @@ class _HomePageState extends State<HomePage> {
   List<Habit> get boxHabits => Hive.box<Habit>('habits').values.toList();
 
   onSelectHabit(int id) {
-    selectedHabitsBox
-        .add(SelectedHabitModel(id: id, selectedDate: selectedDate));
+    selectedHabitsBox.add(SelectedHabitModel(
+        id: id, selectedDate: selectedDate, subtitle: 'completed'));
 
     cacheSelectedHabits();
+  }
+
+  onUnselectHabit(int id) {
+    selectedHabitsBox.delete(id);
+
+    cacheSelectedHabits();
+  }
+
+  toggleSelectHabit(int id) {
+    if (isSelected(id)) {
+      onUnselectHabit(id);
+    } else {
+      onSelectHabit(id);
+    }
   }
 
   @override
@@ -50,10 +64,24 @@ class _HomePageState extends State<HomePage> {
         .where((habit) => habit.selectedDate == selectedDate)
         .toList();
 
+    for (var habit in selectedHabits) {
+      if (habit.subtitle != 'completed') {
+        selectedHabitsBox.put(
+          habit.id,
+          SelectedHabitModel(
+            id: habit.id,
+            selectedDate: habit.selectedDate,
+            subtitle: 'completed',
+          ),
+        );
+      }
+    }
+
     setState(() {});
   }
 
-  bool isSelected(id) => selectedHabits.any((habit) => habit.id == id);
+  bool isSelected(id) => selectedHabits
+      .any((habit) => habit.id == id && habit.selectedDate == selectedDate);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                   Habit habit = boxHabits[index];
 
                   return GestureDetector(
-                    onTap: () => onSelectHabit(habit.id),
+                    onTap: () => toggleSelectHabit(habit.id),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),

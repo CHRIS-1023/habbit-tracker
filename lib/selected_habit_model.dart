@@ -8,6 +8,12 @@ class SelectedHabitModel {
   final int id;
   @HiveField(1)
   final DateTime selectedDate;
+  @HiveField(2)
+  final String subtitle;
 
-  SelectedHabitModel({ required this.id, required  this.selectedDate});
+  SelectedHabitModel({
+    required this.id,
+    required this.selectedDate,
+    required this.subtitle,
+  });
 }

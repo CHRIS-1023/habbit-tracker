@@ -3,6 +3,7 @@ import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
 import 'package:habbit_tracker/habits.dart';
+import 'package:habbit_tracker/selected_habit_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class AnalyticsPage extends StatefulWidget {
@@ -13,25 +14,29 @@ class AnalyticsPage extends StatefulWidget {
 }
 
 class _AnalyticsPageState extends State<AnalyticsPage> {
-  Box<Map<String, dynamic>>? selectedHabitBox;
-
-  Box getSelectedHabitsBoxForDate(DateTime date) {
-    return boxDates;
-  }
+  Box<SelectedHabitModel>? selectedHabitBox;
+  DateTime selectedDate = DateTime.now();
 
   Future<void> openSelectedHabitsBox() async {
-    await Hive.openBox<Map<String, dynamic>>('selectedHabits');
+    await Hive.openBox<SelectedHabitModel>('selectedHabits');
     setState(() {
-      selectedHabitBox = Hive.box<Map<String, dynamic>>('selectedHabits');
+      selectedHabitBox = Hive.box<SelectedHabitModel>('selectedHabits');
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    openSelectedHabitsBox();
   }
 
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
     openSelectedHabitsBox();
-    var currentDate = DateTime.now();
-    var selectedHabitsBox = getSelectedHabitsBoxForDate(currentDate);
+
+    List<SelectedHabitModel> selectedHabits =
+        selectedHabitBox?.values.toList() ?? [];
 
     return Scaffold(
         backgroundColor: Colors.grey[100],
@@ -82,7 +87,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     Habit habit = boxHabits.getAt(index);
-                    final habitData = selectedHabitsBox.get(index);
+                    SelectedHabitModel? selectedHabit;
+                    try {
+                      selectedHabit = selectedHabits.firstWhere(
+                        (habit) =>
+                            habit.id == habit.id &&
+                            habit.selectedDate == selectedDate,
+                      );
+                    } catch (e) {
+                      '';
+                    }
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -102,17 +116,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: Text(
-                            habitData != null && habitData['completed'] == true
-                                ? 'Completed'
-                                : 'Not started',
-                            style: TextStyle(
-                              color: habitData != null &&
-                                      habitData['completed'] == true
-                                  ? Colors.green
-                                  : Colors.red,
-                            ),
-                          ),
+                          subtitle: selectedHabit != null
+                              ? Text(selectedHabit.subtitle)
+                              : null,
                           trailing: CircleAvatar(
                             backgroundColor: Colors.grey[100],
                             child: Image.asset('assets/fire.png'),
