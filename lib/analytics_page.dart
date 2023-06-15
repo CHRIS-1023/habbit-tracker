@@ -33,10 +33,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
-    openSelectedHabitsBox();
-
-    List<SelectedHabitModel> selectedHabits =
-        selectedHabitBox?.values.toList() ?? [];
 
     return Scaffold(
         backgroundColor: Colors.grey[100],
@@ -87,16 +83,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   itemCount: boxHabits.length,
                   itemBuilder: (context, index) {
                     Habit habit = boxHabits.getAt(index);
-                    SelectedHabitModel? selectedHabit;
-                    try {
-                      selectedHabit = selectedHabits.firstWhere(
-                        (habit) =>
-                            habit.id == habit.id &&
-                            habit.selectedDate == selectedDate,
-                      );
-                    } catch (e) {
-                      '';
-                    }
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -116,9 +102,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: selectedHabit != null
-                              ? Text(selectedHabit.subtitle)
-                              : null,
                           trailing: CircleAvatar(
                             backgroundColor: Colors.grey[100],
                             child: Image.asset('assets/fire.png'),

@@ -1,10 +1,10 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:habbit_tracker/auth.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
 import 'package:habbit_tracker/habits.dart';
 import 'package:habbit_tracker/selected_habit_model.dart';
+import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  AuthService authService = AuthService();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime get currentDate => DateTime.now();
 
@@ -29,16 +28,23 @@ class _HomePageState extends State<HomePage> {
   List<Habit> get boxHabits => Hive.box<Habit>('habits').values.toList();
 
   onSelectHabit(int id) {
-    selectedHabitsBox.add(SelectedHabitModel(
-        id: id, selectedDate: selectedDate, subtitle: 'completed'));
+    selectedHabitsBox.put(
+        id,
+        SelectedHabitModel(
+          id: id,
+          selectedDate: selectedDate,
+        ));
 
     cacheSelectedHabits();
   }
 
   onUnselectHabit(int id) {
-    selectedHabitsBox.delete(id);
+    selectedHabitsBox.deleteAt(id);
 
-    cacheSelectedHabits();
+    setState(() {
+      selectedHabits.removeWhere(
+          (habit) => habit.id == id && habit.selectedDate == selectedDate);
+    });
   }
 
   toggleSelectHabit(int id) {
@@ -64,19 +70,6 @@ class _HomePageState extends State<HomePage> {
         .where((habit) => habit.selectedDate == selectedDate)
         .toList();
 
-    for (var habit in selectedHabits) {
-      if (habit.subtitle != 'completed') {
-        selectedHabitsBox.put(
-          habit.id,
-          SelectedHabitModel(
-            id: habit.id,
-            selectedDate: habit.selectedDate,
-            subtitle: 'completed',
-          ),
-        );
-      }
-    }
-
     setState(() {});
   }
 
@@ -86,7 +79,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var formattedDate = DateFormat('EEEE, MMMM d').format(currentDate);
-    var formattedDate2 = DateFormat('EEEE').format(currentDate);
+    var formattedDate2 = DateFormat('EEEE').format(selectedDate);
 
     return Scaffold(
       backgroundColor: Colors.grey[100],

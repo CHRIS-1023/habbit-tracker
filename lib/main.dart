@@ -16,7 +16,6 @@ Future<void> main() async {
   boxHabits = await Hive.openBox<Habit>('habits');
   selectedHabitsBox = await Hive.openBox<SelectedHabitModel>('selectedHabits');
 
-  boxDates = await Hive.openBox('dates');
   runApp(const MyApp());
 }
 
