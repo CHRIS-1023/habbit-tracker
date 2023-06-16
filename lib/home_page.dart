@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker/const_widgets.dart';
@@ -20,31 +22,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime get currentDate => DateTime.now();
-
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate =
+      DateTime.parse(DateTime.now().toString().split(" ")[0]);
 
   List<SelectedHabitModel> selectedHabits = [];
 
   List<Habit> get boxHabits => Hive.box<Habit>('habits').values.toList();
 
   onSelectHabit(int id) {
-    selectedHabitsBox.put(
-        id,
-        SelectedHabitModel(
-          id: id,
-          selectedDate: selectedDate,
-        ));
+    selectedHabitsBox.add(SelectedHabitModel(
+      id: id,
+      selectedDate: selectedDate,
+    ));
 
     cacheSelectedHabits();
   }
 
   onUnselectHabit(int id) {
-    selectedHabitsBox.deleteAt(id);
+    var index = selectedHabitsBox.values.toList().indexWhere(
+          (habit) => habit.id == id && habit.selectedDate == selectedDate,
+        );
+    selectedHabitsBox.deleteAt(index);
 
-    setState(() {
-      selectedHabits.removeWhere(
-          (habit) => habit.id == id && habit.selectedDate == selectedDate);
-    });
+    cacheSelectedHabits();
   }
 
   toggleSelectHabit(int id) {
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var formattedDate = DateFormat('EEEE, MMMM d').format(currentDate);
     var formattedDate2 = DateFormat('EEEE').format(selectedDate);
-
+    log("Selected date: $selectedDate");
     return Scaffold(
       backgroundColor: Colors.grey[100],
       key: scaffoldKey,
