@@ -20,19 +20,22 @@ class HabitAdapter extends TypeAdapter<Habit> {
       title: fields[0] as String,
       imagePath: fields[1] as String,
       id: fields[2] as int,
+      completed: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Habit obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.imagePath)
       ..writeByte(2)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(3)
+      ..write(obj.completed);
   }
 
   @override

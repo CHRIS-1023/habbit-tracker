@@ -13,5 +13,12 @@ class Habit extends HiveObject {
   @HiveField(2)
   final int id;
 
-  Habit({required this.title, required this.imagePath, required this.id});
+  @HiveField(3)
+  bool completed;
+
+  Habit(
+      {required this.title,
+      required this.imagePath,
+      required this.id,
+      this.completed = false});
 }

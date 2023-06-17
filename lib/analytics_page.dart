@@ -3,8 +3,6 @@ import 'package:habbit_tracker/boxes.dart';
 import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/drawer.dart';
 import 'package:habbit_tracker/habits.dart';
-import 'package:habbit_tracker/selected_habit_model.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({Key? key}) : super(key: key);
@@ -14,22 +12,6 @@ class AnalyticsPage extends StatefulWidget {
 }
 
 class _AnalyticsPageState extends State<AnalyticsPage> {
-  Box<SelectedHabitModel>? selectedHabitBox;
-  DateTime selectedDate = DateTime.now();
-
-  Future<void> openSelectedHabitsBox() async {
-    await Hive.openBox<SelectedHabitModel>('selectedHabits');
-    setState(() {
-      selectedHabitBox = Hive.box<SelectedHabitModel>('selectedHabits');
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    openSelectedHabitsBox();
-  }
-
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -102,9 +84,20 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          subtitle: habit.completed
+                              ? const Text(
+                                  'Completed!',
+                                  style: TextStyle(color: Colors.green),
+                                )
+                              : const Text(
+                                  'Not Started!',
+                                  style: TextStyle(color: Colors.red),
+                                ),
                           trailing: CircleAvatar(
                             backgroundColor: Colors.grey[100],
-                            child: Image.asset('assets/fire.png'),
+                            child: Image.asset(
+                              'assets/fire.png',
+                            ),
                           )),
                     );
                   },

@@ -49,8 +49,12 @@ class _HomePageState extends State<HomePage> {
 
   toggleSelectHabit(int id) {
     if (isSelected(id)) {
+      Habit habit = boxHabits.firstWhere((habit) => habit.id == id);
+      habit.completed = false;
       onUnselectHabit(id);
     } else {
+      Habit habit = boxHabits.firstWhere((habit) => habit.id == id);
+      habit.completed = true;
       onSelectHabit(id);
     }
   }
