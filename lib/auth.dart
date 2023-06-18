@@ -13,6 +13,7 @@ class AuthService {
           .user!;
 
       if (user != null) {
+        
         return true;
       }
     } on FirebaseAuthException catch (e) {

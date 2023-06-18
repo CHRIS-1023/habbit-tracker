@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habbit_tracker/const_widgets.dart';
 import 'package:habbit_tracker/helpers.dart';
 import 'package:habbit_tracker/home_page.dart';
 import 'package:habbit_tracker/login.dart';
@@ -22,19 +21,18 @@ class _SplashScreenState extends State<SplashScreen> {
   getUserLoggedInStatus() async {
     await HelperFunctions.getUserLoggedInStatus().then((value) {
       if (value != null) {
-        nextScreen(context, const HomePage());
-      } else {
-        nextScreen(context, const LogIn());
+        setState(() {
+          isSignedIn = value;
+        });
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('SplashScreen'),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: isSignedIn ? const HomePage() : const LogIn(),
     );
   }
 }

@@ -7,10 +7,11 @@ class DatabaseService {
 //reference for our collections
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
+
   //saving the user data
-  Future savingUserData(String fullname, String email) async {
+  Future savingUserData(String name, String email) async {
     return await userCollection.doc(uid).set({
-      "fullname": fullname,
+      "name": name,
       "email": email,
       "uid": uid,
     });
