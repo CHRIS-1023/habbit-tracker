@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   final String? uid;
-  DatabaseService({required this.uid});
+  DatabaseService({this.uid});
 
 //reference for our collections
   final CollectionReference userCollection =
@@ -18,9 +18,9 @@ class DatabaseService {
   }
 
   //getting user data
-  Future gettingUserData(String email) async {
+  Future gettingUserData(String uid) async {
     QuerySnapshot snapshot =
-        await userCollection.where('email', isEqualTo: email).get();
+        await userCollection.where('uid', isEqualTo: uid).get();
     return snapshot;
   }
 }

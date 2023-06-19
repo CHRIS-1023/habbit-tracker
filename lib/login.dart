@@ -149,9 +149,9 @@ class _LogInState extends State<LogIn> {
           .loginWithUserNameandPassword(email, password)
           .then((value) async {
         if (value == true) {
-          QuerySnapshot snapshot = await DatabaseService(
-            uid: FirebaseAuth.instance.currentUser!.uid,
-          ).gettingUserData(email);
+          QuerySnapshot snapshot = await DatabaseService().gettingUserData(
+            FirebaseAuth.instance.currentUser!.uid,
+          );
 
           // Saving the value to our shared preferences
           await HelperFunctions.saveUserloggedInStatus(true);
